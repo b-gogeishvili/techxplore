@@ -15,7 +15,7 @@ resource "aws_instance" "x-ec2-ec1-1b-runner" {
 
   user_data = <<EOF
 #!/bin/bash
-sudo yum update -y
+sudo yum update
 EOF
 
   root_block_device {
@@ -47,7 +47,7 @@ resource "aws_instance" "x-ec2-ec1-1b-mgmt" {
 
   user_data = <<EOF
 #!/bin/bash
-sudo yum update -y
+sudo yum update
 EOF
 
   root_block_device {
@@ -83,8 +83,8 @@ resource "aws_instance" "x-ec2-ec1-1b-backend" {
 
   user_data = <<EOF
 #!/bin/bash
-sudo yum update -y
-sudo yum install nginx
+sudo yum update
+sudo yum install -y nginx
 sudo sh -c "hostname > /usr/share/nginx/html/index.html"
 sudo systemctl enable --now nginx
 EOF
@@ -119,8 +119,8 @@ resource "aws_instance" "x-ec2-ec1-1c-backend-0" {
 
   user_data = <<EOF
 #!/bin/bash
-sudo yum update -y
-sudo yum install nginx
+sudo yum update
+sudo yum install -y nginx
 sudo sh -c "hostname > /usr/share/nginx/html/index.html"
 sudo systemctl enable --now nginx
 EOF
@@ -155,8 +155,8 @@ resource "aws_instance" "x-ec2-ec1-1c-backend-1" {
 
   user_data = <<EOF
 #!/bin/bash
-sudo yum update -y
-sudo yum install nginx
+sudo yum update
+sudo yum install -y nginx
 sudo sh -c "hostname > /usr/share/nginx/html/index.html"
 sudo systemctl enable --now nginx
 EOF
@@ -193,8 +193,8 @@ resource "aws_instance" "x-ec2-ec1-1a-frontend-0" {
 
   user_data = <<EOF
 #!/bin/bash
-sudo yum update -y
-sudo yum install nginx
+sudo yum update
+sudo yum install -y nginx
 sudo systemctl enable --now nginx
 EOF
 
@@ -228,8 +228,8 @@ resource "aws_instance" "x-ec2-ec1-1a-frontend-1" {
 
   user_data = <<EOF
 #!/bin/bash
-sudo yum update -y
-sudo yum install nginx
+sudo yum update
+sudo yum install -y nginx
 sudo systemctl enable --now nginx
 EOF
 
@@ -263,8 +263,8 @@ resource "aws_instance" "x-ec2-ec1-1b-frontend" {
 
   user_data = <<EOF
 #!/bin/bash
-sudo yum update -y
-sudo yum install nginx
+sudo yum update
+sudo yum install -y nginx
 sudo systemctl enable --now nginx
 EOF
 
