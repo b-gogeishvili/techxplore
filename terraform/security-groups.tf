@@ -13,7 +13,7 @@ resource "aws_security_group" "x-sgr-ec1-essential" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_icmp_v4" {
   security_group_id = aws_security_group.x-sgr-ec1-essential.id
-  referenced_security_group_id = aws_security_group.x-sgr-ec1-essential.id
+  cidr_ipv4 = aws_vpc.x-vpc-ec1.cidr_block
   from_port = -1
   ip_protocol = "icmp"
   to_port = -1
@@ -21,7 +21,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_icmp_v4" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   security_group_id = aws_security_group.x-sgr-ec1-essential.id
-  cidr_ipv4 = aws_vpc.x-vpc-ec1.cidr_block
+  referenced_security_group_id = aws_security_group.x-sgr-ec1-essential.id
   from_port = 22
   ip_protocol = "tcp"
   to_port = 22
@@ -29,17 +29,9 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
 
 // Outbound
 
-resource "aws_vpc_security_group_egress_rule" "allow_https_s3" {
-  security_group_id = aws_security_group.x-sgr-ec1-essential.id
-  cidr_ipv4 = "0.0.0.0/0"
-  from_port = 443
-  ip_protocol = "tcp"
-  to_port = 443
-}
-
 resource "aws_vpc_security_group_egress_rule" "allow_https" {
   security_group_id = aws_security_group.x-sgr-ec1-essential.id
-  cidr_ipv4 = aws_vpc.x-vpc-ec1.cidr_block
+  cidr_ipv4 = "0.0.0.0/0"
   from_port = 443
   ip_protocol = "tcp"
   to_port  = 443
@@ -47,7 +39,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_https" {
 
 resource "aws_vpc_security_group_egress_rule" "allow_http" {
   security_group_id = aws_security_group.x-sgr-ec1-essential.id
-  cidr_ipv4 = aws_vpc.x-vpc-ec1.cidr_block
+  cidr_ipv4 = "0.0.0.0/0"
   from_port = 80
   ip_protocol = "tcp"
   to_port = 80
@@ -56,9 +48,17 @@ resource "aws_vpc_security_group_egress_rule" "allow_http" {
 resource "aws_vpc_security_group_egress_rule" "allow_ssh_out" {
   security_group_id = aws_security_group.x-sgr-ec1-essential.id
   referenced_security_group_id = aws_security_group.x-sgr-ec1-essential.id
-  from_port = 80
+  from_port = 22
   ip_protocol = "tcp"
-  to_port = 80
+  to_port = 22
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_ping_out" {
+  security_group_id = aws_security_group.x-sgr-ec1-essential.id
+  referenced_security_group_id = aws_security_group.x-sgr-ec1-essential.id
+  from_port = -1
+  ip_protocol = "icmp"
+  to_port = -1
 }
 
 
@@ -77,7 +77,7 @@ resource "aws_security_group" "x-sgr-ec1-load-balancer" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http_public" {
   security_group_id = aws_security_group.x-sgr-ec1-load-balancer.id
-  referenced_security_group_id = aws_security_group.x-sgr-ec1-essential.id
+  cidr_ipv4 = "0.0.0.0/0"
   from_port = 80
   ip_protocol = "tcp"
   to_port = 80
