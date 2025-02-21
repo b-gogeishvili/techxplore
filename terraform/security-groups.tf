@@ -76,7 +76,7 @@ resource "aws_security_group" "x-sgr-ec1-load-balancer" {
 // Inbound
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http_public" {
-  security_group_id = aws_security_group.x-sgr-ec1-essential.id
+  security_group_id = aws_security_group.x-sgr-ec1-load-balancer.id
   referenced_security_group_id = aws_security_group.x-sgr-ec1-essential.id
   from_port = 80
   ip_protocol = "tcp"
@@ -84,7 +84,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_public" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_https_public" {
-  security_group_id = aws_security_group.x-sgr-ec1-essential.id
+  security_group_id = aws_security_group.x-sgr-ec1-load-balancer.id
   cidr_ipv4 = "0.0.0.0/0"
   from_port = 443
   ip_protocol = "tcp"
@@ -94,7 +94,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_https_public" {
 // Outbound
 
 resource "aws_vpc_security_group_egress_rule" "allow_http_out" {
-  security_group_id = aws_security_group.x-sgr-ec1-essential.id
+  security_group_id = aws_security_group.x-sgr-ec1-load-balancer.id
   referenced_security_group_id = aws_security_group.x-sgr-ec1-web-app.id
   from_port = 80
   ip_protocol = "tcp"
@@ -116,7 +116,7 @@ resource "aws_security_group" "x-sgr-ec1-web-app" {
 // Inbound
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http_local" {
-  security_group_id = aws_security_group.x-sgr-ec1-essential.id
+  security_group_id = aws_security_group.x-sgr-ec1-web-app.id
   cidr_ipv4 = aws_vpc.x-vpc-ec1.cidr_block
   from_port = 80
   ip_protocol = "tcp"
@@ -124,7 +124,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_local" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http_alb" {
-  security_group_id = aws_security_group.x-sgr-ec1-essential.id
+  security_group_id = aws_security_group.x-sgr-ec1-web-app.id
   referenced_security_group_id = aws_security_group.x-sgr-ec1-load-balancer.id
   from_port = 80
   ip_protocol = "tcp"
