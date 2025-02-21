@@ -53,13 +53,18 @@ resource "aws_eip" "x-eip-ec1" {
   }
 }
 
-resource "aws_eip" "x-eip-ec1-bastion" {
+resource "aws_eip" "x-eip-ec1-runner" {
   domain = "vpc"
 
   tags = {
-    Name = "x-eip-ec1-bastion"
+    Name = "x-eip-ec1-runner"
     Mode = "terraform"
   }
+}
+
+resource "aws_eip_association" "runner-eip-association" {
+  instance_id   = aws_instance.x-ec2-ec1-1b-runner.id
+  allocation_id = aws_eip.x-eip-ec1-runner.id
 }
 
 resource "aws_internet_gateway" "x-igw-ec1" {

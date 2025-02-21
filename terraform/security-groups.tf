@@ -132,21 +132,21 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_alb" {
 }
 
 
-resource "aws_security_group" "x-sgr-ec1-bastion" {
-  name = "x-sgr-ec1-bastion"
-  description = "Required for bastion host"
+resource "aws_security_group" "x-sgr-ec1-runner" {
+  name = "x-sgr-ec1-runner"
+  description = "Required for runner host"
   vpc_id = aws_vpc.x-vpc-ec1.id
 
   tags = {
-    Name = "x-sgr-ec1-bastion"
+    Name = "x-sgr-ec1-runner"
     Mode = "terraform"
   }
 }
 
 // Inbound
 
-resource "aws_vpc_security_group_ingress_rule" "allow_ssh_bastion" {
-  security_group_id = aws_security_group.x-sgr-ec1-bastion.id
+resource "aws_vpc_security_group_ingress_rule" "allow_ssh_runner" {
+  security_group_id = aws_security_group.x-sgr-ec1-runner.id
   cidr_ipv4 = "0.0.0.0/0"
   from_port = 22
   ip_protocol = "tcp"
