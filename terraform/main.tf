@@ -10,6 +10,16 @@ resource "aws_vpc" "x-vpc-ec1" {
   }
 }
 
+resource "aws_key_pair" "runner" {
+    key_name = "runner"
+    public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKhTmcc/YQb+80LHbITA+LPUAbxspqOVwOgDe6fxOg6e odin@Zen"
+
+    tags = {
+        Name = "runner"
+        Mode = "terraform"
+    }
+}
+
 resource "aws_vpc_endpoint" "x-endpoint-s3" {
   vpc_id = aws_vpc.x-vpc-ec1.id
   service_name = "com.amazonaws.eu-central-1.s3"
@@ -39,6 +49,15 @@ resource "aws_eip" "x-eip-ec1" {
 
   tags = {
     Name = "x-eip-ec1"
+    Mode = "terraform"
+  }
+}
+
+resource "aws_eip" "x-eip-ec1-bastion" {
+  domain = "vpc"
+
+  tags = {
+    Name = "x-eip-ec1-bastion"
     Mode = "terraform"
   }
 }
