@@ -1,0 +1,30 @@
+variables:
+  TAGNAME: "20004/prod-$CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA"
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+    - echo "Building an image..."
+    - docker build -t app .
+    - echo "Marking with a tag..."
+    - docker tag app $TAGNAME
+    - echo "Pushing image to a repository..."
+    - docker push $TAGNAME
+  only:
+    - main
+  tags:
+    - main
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Pulling and running container..."
+    - sh scripts/pull.sh $TAGNAME
+  only:
+    - main
+  tags:
+    - main

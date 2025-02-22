@@ -16,6 +16,25 @@ resource "aws_instance" "x-ec2-ec1-1b-runner" {
   user_data = <<EOF
 #!/bin/bash
 sudo yum update
+sudo yum install -y docker
+
+sudo echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzK98ti/yyZS2pKi15HspX+EKlngZUkzkqseeUa4tOn odin@Zen" >> /home/ec2-user/.ssh/authorized_keys
+
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
+
+# Download the binary for your system
+sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+
+# Give it permission to execute
+sudo chmod +x /usr/local/bin/gitlab-runner
+
+# Create a GitLab Runner user
+sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+
+# Install and run as a service
+sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+sudo gitlab-runner start
 EOF
 
   root_block_device {
@@ -48,6 +67,9 @@ resource "aws_instance" "x-ec2-ec1-1b-mgmt" {
   user_data = <<EOF
 #!/bin/bash
 sudo yum update
+sudo yum install -y ansible
+
+sudo echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzK98ti/yyZS2pKi15HspX+EKlngZUkzkqseeUa4tOn odin@Zen" >> /home/ec2-user/.ssh/authorized_keys
 EOF
 
   root_block_device {
@@ -84,9 +106,12 @@ resource "aws_instance" "x-ec2-ec1-1b-backend" {
   user_data = <<EOF
 #!/bin/bash
 sudo yum update
-sudo yum install -y nginx
-sudo sh -c "hostname > /usr/share/nginx/html/index.html"
-sudo systemctl enable --now nginx
+sudo yum install -y docker
+
+sudo echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzK98ti/yyZS2pKi15HspX+EKlngZUkzkqseeUa4tOn odin@Zen" >> /home/ec2-user/.ssh/authorized_keys
+
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
 EOF
 
   root_block_device {
@@ -120,9 +145,12 @@ resource "aws_instance" "x-ec2-ec1-1c-backend-0" {
   user_data = <<EOF
 #!/bin/bash
 sudo yum update
-sudo yum install -y nginx
-sudo sh -c "hostname > /usr/share/nginx/html/index.html"
-sudo systemctl enable --now nginx
+sudo yum install -y docker
+
+sudo echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzK98ti/yyZS2pKi15HspX+EKlngZUkzkqseeUa4tOn odin@Zen" >> /home/ec2-user/.ssh/authorized_keys
+
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
 EOF
 
   root_block_device {
@@ -156,9 +184,12 @@ resource "aws_instance" "x-ec2-ec1-1c-backend-1" {
   user_data = <<EOF
 #!/bin/bash
 sudo yum update
-sudo yum install -y nginx
-sudo sh -c "hostname > /usr/share/nginx/html/index.html"
-sudo systemctl enable --now nginx
+sudo yum install -y docker
+
+sudo echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzK98ti/yyZS2pKi15HspX+EKlngZUkzkqseeUa4tOn odin@Zen" >> /home/ec2-user/.ssh/authorized_keys
+
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
 EOF
 
   root_block_device {
@@ -194,8 +225,12 @@ resource "aws_instance" "x-ec2-ec1-1a-frontend-0" {
   user_data = <<EOF
 #!/bin/bash
 sudo yum update
-sudo yum install -y nginx
-sudo systemctl enable --now nginx
+sudo yum install -y docker
+
+sudo echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzK98ti/yyZS2pKi15HspX+EKlngZUkzkqseeUa4tOn odin@Zen" >> /home/ec2-user/.ssh/authorized_keys
+
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
 EOF
 
   root_block_device {
@@ -229,8 +264,12 @@ resource "aws_instance" "x-ec2-ec1-1a-frontend-1" {
   user_data = <<EOF
 #!/bin/bash
 sudo yum update
-sudo yum install -y nginx
-sudo systemctl enable --now nginx
+sudo yum install -y docker
+
+sudo echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzK98ti/yyZS2pKi15HspX+EKlngZUkzkqseeUa4tOn odin@Zen" >> /home/ec2-user/.ssh/authorized_keys
+
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
 EOF
 
   root_block_device {
@@ -264,8 +303,12 @@ resource "aws_instance" "x-ec2-ec1-1b-frontend" {
   user_data = <<EOF
 #!/bin/bash
 sudo yum update
-sudo yum install -y nginx
-sudo systemctl enable --now nginx
+sudo yum install -y docker
+
+sudo echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzK98ti/yyZS2pKi15HspX+EKlngZUkzkqseeUa4tOn odin@Zen" >> /home/ec2-user/.ssh/authorized_keys
+
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
 EOF
 
   root_block_device {
