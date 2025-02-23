@@ -1,0 +1,18 @@
+---
+- name: Install Prometheus
+  apt:
+    name: {{ item }}
+    with_items:
+      - software-properties-common
+      - prometheus
+
+- name: Start Prometheus
+  service:
+    name: prometheus
+    state: started
+
+- name: Configure Prometheus
+  template:
+    src: prometheus.conf.j2
+    dest: /etc/prometheus/prometheus.conf
+  notify: restart-prometheus
