@@ -1,12 +1,12 @@
 # Source code for TBC's techXplore event.
 A 4-day Hackathon held by TBC Bank.
-'''
+```
 
-'''
+```
 To view other team member's code, visit [GitLab](https://gitlab.com/scanpay1)
-'''
+```
 
-'''
+```
 [Click here for more information about the event.](https://bm.ge/news/tibisis-inovatsiuri-teqghonisdzieba-techxplore-2025?utm_source=bm&utm_medium=website&utm_campaign=tbc)
 
 ---
