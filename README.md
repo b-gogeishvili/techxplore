@@ -9,6 +9,9 @@ To view other team member's code, visit [GitLab](https://gitlab.com/scanpay1)
 
 # Technology
 
+Cloud:
+- AWS
+
 IaC Tools:
 - Terraform
 - Ansible
